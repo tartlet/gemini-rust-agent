@@ -88,6 +88,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             "input": &input
         });
 
+        // look inside previous_interaction_id. If it contains a value, give me that value and call it id
         if let Some(id) = &previous_interaction_id {
             request_body["previous_interaction_id"] = json!(id);
         }
