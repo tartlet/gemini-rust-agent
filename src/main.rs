@@ -60,6 +60,17 @@ fn extract_text(response: &InteractionResponse) -> Option<&str> {
     None
 }
 
+fn ask_agent(&mut input: &String) -> &str {
+    print!("Type something ... \n");
+
+    use std::io::{self, Write};
+    io::stdout().flush()?;
+    io::stdin().read_line(&mut input)?;
+
+    let input = input.trim();
+    return input;
+}
+
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let api_key = env::var("GEMINI_API_KEY")?;
@@ -69,15 +80,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut previous_interaction_id: Option<String> = None;
     loop {
 
-        print!("Type something ... \n");
-
-        use std::io::{self, Write};
-        io::stdout().flush()?;
-
         let mut input = String::new();
-        io::stdin().read_line(&mut input)?;
-
-        let input = input.trim();
+        input = ask_agent(&input);
 
         if input == "quit" {
             break;
